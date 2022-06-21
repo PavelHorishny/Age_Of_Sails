@@ -6,25 +6,26 @@ import java.awt.*;
 public class MainFrame extends JFrame{
 
     public MainFrame(){
-        JSplitPane splitPane = new JSplitPane();
-        JPanel leftPanel = new JPanel();
-        JPanel rightPanel = new JPanel();
-        JSplitPane split = new JSplitPane();
-        JPanel bottomPanel = new JPanel();
+        JSplitPane mainPane = new JSplitPane();
+        JPanel gameField = new JPanel();
+        JPanel infoPanel = new JPanel();
+        JSplitPane secondaryPane = new JSplitPane();
+        JPanel buttonPanel = new JPanel();
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setPreferredSize(new Dimension(1000, 600));
         getContentPane().setLayout(new GridLayout());
-        getContentPane().add(splitPane);
-        split.setEnabled(false);
-        splitPane.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
-        splitPane.setDividerLocation(700);
-        splitPane.setLeftComponent(leftPanel);
-        splitPane.setRightComponent(split);
-        split.setOrientation(JSplitPane.VERTICAL_SPLIT);
-        split.setDividerLocation(300);
-        split.setTopComponent(rightPanel);
-        split.setBottomComponent(bottomPanel);
+        getContentPane().add(mainPane);
+        mainPane.setEnabled(false);
+        secondaryPane.setEnabled(false);
+        mainPane.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
+        mainPane.setDividerLocation(700);
+        mainPane.setLeftComponent(gameField);
+        mainPane.setRightComponent(secondaryPane);
+        secondaryPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
+        secondaryPane.setDividerLocation(300);
+        secondaryPane.setTopComponent(infoPanel);
+        secondaryPane.setBottomComponent(buttonPanel);
         pack();
     }
     public static void main(String[] args){
