@@ -2,6 +2,10 @@ package org.DAO;
 
 public class Vessel {
     private String type;
+    //location data
+    private int x;
+    private int y;
+
     //movement data
     private int breeze;
     private int calm;
@@ -14,7 +18,9 @@ public class Vessel {
     private boolean canFire;
     private boolean canMove;
 
-    public Vessel(VesselType vesselType){
+    public Vessel(VesselType vesselType, int x, int y){
+        this.x=x;
+        this.y=y;
         type= vesselType.getType();
         breeze= vesselType.getBreeze_move_points();
         calm= vesselType.getCalm_move_points();
@@ -30,6 +36,12 @@ public class Vessel {
         return type;
     }
 
+    public int getX(){
+        return x;
+    }
+    public int getY(){
+        return y;
+    }
     public int getBreeze() {
         return breeze;
     }
@@ -60,5 +72,13 @@ public class Vessel {
 
     public boolean isCanMove() {
         return canMove;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
     }
 }

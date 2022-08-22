@@ -1,27 +1,44 @@
 package org;
 
+import org.DAO.Vessel;
 import org.window.GameField;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static org.Fleet.getFleet;
+import static org.Fleet.getFleet1;
 
 public class TestPanel extends JPanel implements ActionListener {
     Rectangle r1;
     Rectangle r2;
+    List <Vessel> fleet1;
+    Map  <Vessel, Rectangle> fleet;
+    Map<Rectangle,Vessel> p1;
+    List <Rectangle> rectList;
     Rectangle selected = null;
+    Vessel selectedVessel = null;
     Polygon p = new Polygon(new int[]{50, 62, 75},new int[]{50,25,50},3);
     public TestPanel(){
+        rectList = new ArrayList<>();
+        p1 = new HashMap<>();
         setBackground(Color.BLUE);
+        fleet = getFleet();
+        fleet1 = getFleet1();
         setFocusable(true);
-        r1=new Rectangle(50,50,25,25);
-        r2 = new Rectangle(500,500,25,25);
+
         addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
                 if(selected!=null){switch (e.getKeyCode()){
                     case KeyEvent.VK_LEFT:
                         selected.x-=25;
+                        /*selectedVessel.setX(getX()-25);*/
                         repaint();
                         System.out.println("left");
                         break;
@@ -29,15 +46,18 @@ public class TestPanel extends JPanel implements ActionListener {
 
                         System.out.println("right");
                         selected.x+=25;
+                        /*selectedVessel.setX(getX()+25);*/
                         repaint();
                         break;
                     case KeyEvent.VK_UP:
                         selected.y-=25;
+                        /*selectedVessel.setY(getY()-25);*/
                         repaint();
                         System.out.println(KeyEvent.VK_UP);
                         break;
                     case KeyEvent.VK_DOWN:
                         selected.y+=25;
+                        /*selectedVessel.setY(getX()+25);*/
                         repaint();
                         System.out.println("down");
                         break;
@@ -48,11 +68,19 @@ public class TestPanel extends JPanel implements ActionListener {
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                for(Rectangle rectangle : rectList){
+                    if(rectangle.contains(e.getPoint())){
+                        selected=rectangle;
+                        /*selectedVessel=p1.get(rectangle);
+                        System.out.println("selected"+selectedVessel.getType());*/
+                        repaint();
+                    }
+                }
                 if (r1.contains(e.getPoint())){
                     selected=r1;
                     System.out.println("selected");
                     repaint();
-                }
+                }/*
                 if(p.contains(e.getPoint())){
                     System.out.println("selelcted");
                 }
@@ -60,7 +88,7 @@ public class TestPanel extends JPanel implements ActionListener {
                     selected=r2;
                     System.out.println("selected 2");
                     repaint();
-                }
+                }*/
             }
         });
     }
@@ -76,12 +104,10 @@ public class TestPanel extends JPanel implements ActionListener {
         Graphics2D g2d = (Graphics2D) g.create();
         g2d.setColor(Color.RED);
 
-        g.fillPolygon(p);
+        /*g.fillPolygon(p);*/
         drawMap(g);
         drawShips(g);
         if(selected!=null){
-            g2d.setColor(Color.RED);
-            /*g2d.fill(selected);*/
             showLines(g2d, selected);
             showMoves(g2d,selected);
         }
@@ -97,9 +123,19 @@ public class TestPanel extends JPanel implements ActionListener {
     private void drawShips(Graphics g){
         Graphics2D g2d = (Graphics2D) g.create();
         g2d.setColor(Color.MAGENTA);
+       /* for(Vessel vessel : fleet1){
+            Rectangle r = new Rectangle(vessel.getX(),vessel.getY(),25,25);
+           *//* p1.put(r,vessel);*//*
+            rectList.add(r);
+
+        }
+        for (Rectangle rec : rectList){
+            g2d.fill(rec);
+        }*/
+        r1 = new Rectangle(0,150,25,25);
         g2d.fill(r1);
         g2d.setColor(Color.CYAN);
-        g2d.fill(r2);
+
     }
     private void showLines(Graphics2D g, Rectangle r){
         g.setColor(Color.RED);

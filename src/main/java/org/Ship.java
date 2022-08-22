@@ -7,9 +7,11 @@ import java.awt.event.*;
 public class Ship {
     int x;
     int y;
+    Rectangle r;
     public Ship(int x,int y){
         this.x=x;
         this.y=y;
+        r = new Rectangle(25,25,25,25);
     }
 
     public int getX() {
@@ -18,5 +20,9 @@ public class Ship {
 
     public int getY() {
         return y;
+    }
+
+    public Rectangle getR(){
+        return r;
     }
 }
