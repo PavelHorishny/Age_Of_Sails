@@ -1,10 +1,12 @@
 package org.DAO;
 
-public class Vessel {
+import java.awt.*;
+
+public class Vessel extends Rectangle {
     private String type;
     //location data
-    private int x;
-    private int y;
+    /*private int x;
+    private int y;*/
 
     //movement data
     private int breeze;
@@ -14,13 +16,13 @@ public class Vessel {
     private int shots;
     private int range;
     private int hitPoint;
+
     //abilities
     private boolean canFire;
     private boolean canMove;
 
-    public Vessel(VesselType vesselType, int x, int y){
-        this.x=x;
-        this.y=y;
+    public Vessel(VesselType vesselType, int x, int y, int width, int height){
+        super(x,y,width,height);
         type= vesselType.getType();
         breeze= vesselType.getBreeze_move_points();
         calm= vesselType.getCalm_move_points();
@@ -36,12 +38,12 @@ public class Vessel {
         return type;
     }
 
-    public int getX(){
+/*    public int getX(){
         return x;
     }
     public int getY(){
         return y;
-    }
+    }*/
     public int getBreeze() {
         return breeze;
     }
@@ -74,11 +76,11 @@ public class Vessel {
         return canMove;
     }
 
-    public void setX(int x) {
+/*    public void setX(int x) {
         this.x = x;
     }
 
     public void setY(int y) {
         this.y = y;
-    }
+    }*/
 }

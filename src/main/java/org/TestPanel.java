@@ -11,8 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.Fleet.getFleet;
-import static org.Fleet.getFleet1;
+
 
 public class TestPanel extends JPanel implements ActionListener {
     Rectangle r1;
@@ -28,8 +27,7 @@ public class TestPanel extends JPanel implements ActionListener {
         rectList = new ArrayList<>();
         p1 = new HashMap<>();
         setBackground(Color.BLUE);
-        fleet = getFleet();
-        fleet1 = getFleet1();
+
         setFocusable(true);
 
         addKeyListener(new KeyAdapter() {
