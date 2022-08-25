@@ -11,19 +11,21 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
+import static org.Firing.fireRange;
+import static org.window.Movements.movements;
+
 public class Game extends JPanel {
-    Vessel v = new Vessel(VesselType.CORVETTE,50,50,25,25);
+    Vessel v = new Vessel(VesselType.CORVETTE,250,250,25,25);
     Rectangle r1 = new Rectangle(50,50,25,25);
     Rectangle r2 = new Rectangle(150,50,25,25);
     Rectangle r3 = new Rectangle(250,50,25,25);
     ArrayList <Rectangle> fleet = new ArrayList<>();
     Vessel selected = null;
     PanelTest pt;
+    Weather w;
     Boat b = new Boat(0,0,25,25);
     public Game (){
-        fleet.add(r1);
-        fleet.add(r2);
-        fleet.add(r3);
+
         setFocusable(true);
         addMouseListener(new MouseAdapter() {
             @Override
@@ -48,6 +50,7 @@ public class Game extends JPanel {
                     switch (e.getKeyCode()){
                         case KeyEvent.VK_SPACE:
                             selected=null;
+                            changeWeather();
                             repaint();
                             break;
                         case KeyEvent.VK_LEFT:
@@ -89,17 +92,10 @@ public class Game extends JPanel {
         drawShip(g);
         /*ifSelected();*/
         if(selected!=null){
-           /* showLines(g2d, selected);
-            showMoves(g2d,selected);*/
-            fireRange(g2d,selected);
-            movementsEast(selected,g2d);
-            movementsWest(selected,g2d);
-            movementsNorth(selected,g2d);
-            movementsSouth(selected,g2d);
-            movementsNE(selected,g2d);
-            movementsNW(selected, g2d);
-            movementsSE(selected,g2d);
-            movementsSW(selected,g2d);
+           // showLines(g2d, selected);
+            showMoves(g2d,selected,w);
+            showFireRange(g2d,selected);
+
         }
     }
 
@@ -112,6 +108,8 @@ public class Game extends JPanel {
     public void invalidate() {
         super.invalidate();
         setBackground(Color.BLUE);
+        w = new Weather ();
+        System.out.println(w.getDirection());
     }
 
     private void drawMap(Graphics g){
@@ -134,126 +132,15 @@ public class Game extends JPanel {
         }*/
     }
 
-    private void fireRange(Graphics2D g, Vessel v){
-        g.setColor(Color.RED);
-        int a = v.getRange();
-        int x = v.x;
-        int y = v.y;
-        for(int i = 1; i<=a;i++){
-            g.drawRect(x+2+(25*i),y+2,21,21);
-            g.drawRect(x+2-(25*i),y+2,21,21);
-            g.drawRect(x+2,y+2+(25*i),21,21);
-            g.drawRect(x+2,y+2-(25*i),21,21);
-            g.drawRect(x+2+(25*i),y+2+(25*i),21,21);
-            g.drawRect(x+2+(25*i),y+2-(25*i),21,21);
-            g.drawRect(x+2-(25*i),y+2+(25*i),21,21);
-            g.drawRect(x+2-(25*i),y+2-(25*i),21,21);
-        }
-        /*g.drawRect(v.x+2+25,v.y+2,21,21);
-        g.drawRect((2*25)+(v.x)+2,v.y+2,21,21);*/
-        /*g.drawLine(r.x+12,r.y+12, r.x+112, r.y+112);
-        g.drawLine(r.x+12,r.y+ 12, r.x-112, r.y-112);*/
+    private void showFireRange (Graphics2D g, Vessel v){
+       fireRange(g,v);
     }
 
-/*    private void showMoves(Graphics2D g, Rectangle r){
-        g.setColor(Color.GREEN);
-        g.drawRect(v.x+25,v.y,25,25);
-        g.drawRect(v.x+50,v.y,25,25);
-        g.drawRect(v.x+75,v.y,25,25);
-        g.drawRect(v.x-25, v.y,25,25);
-        g.drawRect(v.x-50,v.y,25,25);
-        g.drawRect(v.x-75,v.y,25,25);
-    }*/
-
-    private void movementsEast(Vessel v, Graphics g) {
-        g.setColor(Color.GREEN);
-        int a = v.getBreeze();
-        int x = v.x;
-        int y = v.y;
-        for(int i = 0;i<a;i++){
-            g.drawRect(x+25,y,25,25);
-            x+=25;
-        }
+    private void showMoves(Graphics g, Vessel v, Weather w) {
+        movements(g,v,w);
     }
 
-    private void movementsWest(Vessel v, Graphics g) {
-        g.setColor(Color.GREEN);
-        int a = v.getBreeze();
-        int x = v.x;
-        int y=v.y;
-        for(int i = 0;i<a;i++){
-            g.drawRect(x-25,y,25,25);
-            x-=25;
-        }
-    }
-
-    private void movementsNorth(Vessel v, Graphics g) {
-        g.setColor(Color.GREEN);
-        int a = v.getBreeze();
-        int x = v.x;
-        int y=v.y;
-        for(int i = 0;i<a;i++){
-            g.drawRect(x,y-25,25,25);
-            y-=25;
-        }
-    }
-
-    private void movementsSouth(Vessel v, Graphics g) {
-        g.setColor(Color.GREEN);
-        int a = v.getBreeze();
-        int x = v.x;
-        int y = v.y;
-        for(int i = 0;i<a;i++){
-            g.drawRect(x,y+25,25,25);
-            y+=25;
-        }
-    }
-
-    private void movementsNE(Vessel v, Graphics g) {
-        g.setColor(Color.GREEN);
-        int a = v.getBreeze();
-        int x = v.x;
-        int y = v.y;
-        for(int i = 0;i<a;i++){
-            g.drawRect(x+25,y-25,25,25);
-            x+=25;
-            y-=25;
-        }
-    }
-
-    private void movementsNW(Vessel v, Graphics g) {
-        g.setColor(Color.GREEN);
-        int a = v.getBreeze();
-        int x = v.x;
-        int y=v.y;
-        for(int i = 0;i<a;i++){
-            g.drawRect(x-25,y-25,25,25);
-            x-=25;
-            y-=25;
-        }
-    }
-
-    private void movementsSE(Vessel v, Graphics g) {
-        g.setColor(Color.GREEN);
-        int a = v.getBreeze();
-        int x = v.x;
-        int y=v.y;
-        for(int i = 0;i<a;i++){
-            g.drawRect(x+25,y+25,25,25);
-            x+=25;
-            y+=25;
-        }
-    }
-
-    private void movementsSW(Vessel v, Graphics g) {
-        g.setColor(Color.GREEN);
-        int a = v.getBreeze();
-        int x = v.x;
-        int y = v.y;
-        for(int i = 0;i<a;i++){
-            g.drawRect(x-25,y+25,25,25);
-            y+=25;
-            x-=25;
-        }
+    private void changeWeather(){
+        w=new Weather();
     }
 }
